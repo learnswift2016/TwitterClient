@@ -1,5 +1,5 @@
 //
-//  AuthViewController.swift
+//  TwitterClientViewController.swift
 //  TwitterClient
 //
 //  Created by Hoi Pham Ngoc on 3/24/16.
@@ -7,14 +7,8 @@
 //
 
 import UIKit
-import BDBOAuth1Manager
 
-
-let authRequestTokenEndpoint = "oauth/request_token"
-let authTokenEndPoint = "https://api.twitter.com/oauth/authorize?oauth_token"
-
-
-class AuthViewController: UIViewController {
+class TwitterClientViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,22 +19,6 @@ class AuthViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-
-    @IBAction func onLogin(sender: AnyObject) {
-        TwitterClientAPI.sharedInstance.loginWithCompletion() {
-            (user: User?, error: NSError?) in
-            if user != nil {
-                print(user)
-                self.performSegueWithIdentifier("loginSegue", sender: self)
-            } else {
-                print("err")
-                // handle login error
-            }
-
-        
-        }
     }
     
 
