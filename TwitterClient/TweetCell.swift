@@ -39,7 +39,14 @@ class TweetCell: UITableViewCell {
                 userScreenName.text = "@\(user.screenName!)"
             }
             
-            tweetTime.text = tweet.relativeTimestamp
+            if (tweet.createdAtDate != nil) {
+                let realDate = tweet.createdAtDate!
+                let relativeDate = convertDateToRelativeTimestamp(realDate) as String?
+                tweetTime.text = relativeDate 
+            }
+            
+            
+            
             tweetTextData.text = tweet.text
         }
     }
@@ -59,6 +66,11 @@ class TweetCell: UITableViewCell {
 
         userProfileImage.clipsToBounds = true
     }
+    
+    
+    
 
-
+}
+public func convertDateToRelativeTimestamp(date: NSDate) -> String? {
+    return date.formatAsTimeAgo()
 }

@@ -43,8 +43,7 @@ class TweetDetailViewController: UIViewController {
         screennameLabel.text = "@\(user!.screenName!)"
         
         tweetTextLabel.text = tweet.text
-        timestampLabel.text = tweet.absoluteTimestamp
-        
+        timestampLabel.text = tweet.relativeTimestamp
         retweetsLabel.text = "\(tweet.retweetCount!) RETWEETS"
         favoritesLabel.text = "\(tweet.favoriteCount!) FAVORITES"
         replyButton.tintColor = UIColor(red:0.81, green:0.91, blue:0.96, alpha:1.0)

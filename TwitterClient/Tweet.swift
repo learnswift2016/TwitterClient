@@ -20,6 +20,7 @@ struct Tweet {
     let favorited: Bool?
     let retweeted: Bool?
     
+    
     private static var dateFormatter: NSDateFormatter = {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
@@ -34,29 +35,15 @@ struct Tweet {
         return absoluteDateFormatter
     }()
     
-    var relativeTimestamp: String? {
-        return Tweet.convertDateToRelativeTimestamp(createdAtDate!)
-    }
+   
     
-    var absoluteTimestamp: String? {
-        return Tweet.convertDateToAbsoluteTimestamp(createdAtDate!)
-    }
-    
-    var createdAtDate: NSDate? {
-        return Tweet.dateFormatter.dateFromString(createdAtString!)
-    }
+   
     
     var id: NSNumber? {
         return self.dictionary["id"] as? NSNumber
     }
     
-    private static func convertDateToRelativeTimestamp(date: NSDate) -> String? {
-        return date.formatAsTimeAgo()
-    }
     
-    private static func convertDateToAbsoluteTimestamp(date: NSDate) -> String? {
-        return Tweet.absoluteDateFormatter.stringFromDate(date)
-    }
     
     static func tweetsWithArray(array: [NSDictionary]) -> [Tweet]? {
         var tweets = [Tweet]()
@@ -89,6 +76,34 @@ struct Tweet {
         self.text = text
         self.createdAtString = Tweet.dateFormatter.stringFromDate(NSDate())
     }
+    
+    var createdAtDate: NSDate? {
+        print(createdAtString)
+        return Tweet.dateFormatter.dateFromString(createdAtString!)
+    }
+    
+    private static func convertDateToRelativeTimestamp(date: NSDate) -> String? {
+        return date.formatAsTimeAgo()
+    }
+    
+    private static func convertDateToAbsoluteTimestamp(date: NSDate) -> String? {
+        return Tweet.absoluteDateFormatter.stringFromDate(date)
+    }
+    
+    var relativeTimestamp: String? {
+        
+        
+        return Tweet.convertDateToRelativeTimestamp(createdAtDate!)
+       
+    }
+    
+    var absoluteTimestamp: String? {
+        
+        return Tweet.convertDateToAbsoluteTimestamp(createdAtDate!)
+        
+    }
+    
+    
     
 }
 
