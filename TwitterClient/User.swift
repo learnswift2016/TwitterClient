@@ -59,6 +59,7 @@ struct User {
         name = dictionary["name"] as? String
         screenName = dictionary["screen_name"] as? String
         profileImageUrl = dictionary["profile_image_url_https"] as? String
+        profileImageUrl = profileImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
         tagline = dictionary["description"] as? String
     }
     

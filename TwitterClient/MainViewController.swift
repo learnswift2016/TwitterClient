@@ -14,6 +14,8 @@ class MainViewController: UIViewController {
     
     
     @IBOutlet weak var tableView: UITableView!
+    private var refreshControl: UIRefreshControl!
+    private var loadingAdditionalTweets = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,13 +24,38 @@ class MainViewController: UIViewController {
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 140
-
-        // Do any additional setup after loading the view.
-    }
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshTweets", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+        
+        refreshTweets()    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func refreshTweets() {
+        fetchTweets(nil)
+    }
+    
+    private func loadAdditionalTweets() {
+        if let max_id = tweets?.last?.id {
+            let max_id_string = String(max_id)
+            let params = ["max_id": max_id_string]
+            fetchTweets(params)
+        }
+    }
+    
+    private func fetchTweets(params: NSDictionary?) {
+        TwitterClientAPI.sharedInstance.homeTimelineWithParams(params) { (tweets, error) -> () in
+            self.loadingAdditionalTweets = false
+            self.tweets = tweets
+            self.tableView.reloadData()
+            if self.refreshControl.refreshing {
+                self.refreshControl.endRefreshing()
+            }
+        }
     }
     
 
@@ -40,7 +67,46 @@ class MainViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    */ 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "tweetDetailsSegue" {
+            let cell = sender as! TweetCell
+            let detailsVC = segue.destinationViewController as! TweetDetailViewController
+            detailsVC.tweet = cell.tweet
+        }
+        
+        if segue.identifier == "composeSegue" {
+            let navController = segue.destinationViewController as! UINavigationController
+            let composeVC = navController.topViewController as! ComposeTweetViewController
+            composeVC.user = User.currentUser
+        }
+    }
+    // MARK: - Actions
+    
+    @IBAction func postTweet(sender: UIStoryboardSegue) {
+        let composeTweetVC = sender.sourceViewController as! ComposeTweetViewController
+        let tweetText = composeTweetVC.tweetContents
+        var params = ["status": tweetText]
+        
+        if let replyToStatusId = composeTweetVC.replyToStatusId {
+            let replyId = String(replyToStatusId)
+            print("this is a reply to \(replyId)")
+            
+            params["in_reply_to_status_id"] = String(replyToStatusId)
+        }
+        
+        TwitterClientAPI.sharedInstance.composeTweetWithCompletion(params) { (success, error) -> () in
+            // insert at front of tweets array
+            let freshTweet = Tweet(user: User.currentUser!, text: tweetText)
+            self.tweets?.insert(freshTweet, atIndex: 0)
+            
+            // reload
+            self.tableView.reloadData()
+        }
+    }
 
 }
 // MARK: - UITableViewDataSource
@@ -62,6 +128,9 @@ extension MainViewController: UITableViewDataSource {
     }
     
 }
+// MARK: - API Access
+
+
 
 // MARK: - UITableViewDelegate
 extension MainViewController: UITableViewDelegate {
@@ -86,4 +155,4 @@ extension MainViewController: UIScrollViewDelegate {
         }
     }
 }
-
+ 

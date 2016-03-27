@@ -7,7 +7,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>twiiterClient</string>
+				<string>twitterClient</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>

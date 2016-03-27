@@ -100,7 +100,7 @@ class TwitterClientAPI: BDBOAuth1SessionManager {
         
         // fetch request token and redirect to authorization page
         TwitterClientAPI.sharedInstance.requestSerializer.removeAccessToken()
-        TwitterClientAPI.sharedInstance.fetchRequestTokenWithPath("oauth/request_token", method: "GET", callbackURL: NSURL(string: "twiiterClient://oauth"), scope: nil,
+        TwitterClientAPI.sharedInstance.fetchRequestTokenWithPath("oauth/request_token", method: "GET", callbackURL: NSURL(string: "twitterClient://oauth"), scope: nil,
             success: { (requestToken: BDBOAuth1Credential!) -> Void in
                 print("Got the request token: \(requestToken)")
                 
