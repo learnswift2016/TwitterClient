@@ -140,8 +140,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Twitter Client" id="lNl-ch-2JI">
-                        <barButtonItem key="leftBarButtonItem" image="Menu Filled-50" id="ReL-s2-mUF">
+                        <barButtonItem key="leftBarButtonItem" image="Exit-50" id="ReL-s2-mUF">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onLogout:" destination="BYZ-38-t0r" id="guF-Cm-RSf"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="Plus Math-64" id="X5B-k1-Dfu">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -527,8 +530,8 @@
     </scenes>
     <resources>
         <image name="Delete-50" width="25" height="25"/>
+        <image name="Exit-50" width="25" height="25"/>
         <image name="Like-50" width="25" height="25"/>
-        <image name="Menu Filled-50" width="25" height="25"/>
         <image name="Paper Plane-50" width="25" height="25"/>
         <image name="Plus Math-64" width="32" height="32"/>
         <image name="Refresh-64" width="32" height="32"/>
@@ -537,6 +540,6 @@
         <image name="authbg6s-1" width="288" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FPH-nB-LP3"/>
+        <segue reference="Shv-ce-dQV"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -107,6 +107,24 @@ class MainViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
+    
+    
+ 
+    @IBAction func onLogout(sender: UIButton) {
+        if let user = User.currentUser {
+            let alertVC = UIAlertController(title: user.screenName, message: "Are you sure you want to sign out of Twitter Client?", preferredStyle: .Alert)
+            let logoutAction = UIAlertAction(title: "Yaaaa :))", style: .Default) { (action) in
+                user.logout()
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+                // dismiss
+            }
+            alertVC.addAction(logoutAction)
+            alertVC.addAction(cancelAction)
+            
+            presentViewController(alertVC, animated: true, completion: nil)
+        }
+    }
 
 }
 // MARK: - UITableViewDataSource
